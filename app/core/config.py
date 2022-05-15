@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 
 class Settings(BaseSettings):
-    API_V1_STR: str = "/api/v1"
+    API_V1_STR: str = "/api/vp"
     JWT_SECRET: str = "TEST_SECRET_DO_NOT_USE_IN_PROD"
     ALGORITHM: str = "HS256"
     
@@ -22,8 +22,9 @@ class Settings(BaseSettings):
     # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
     # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
+        "http://localhost:5079",
         "http://localhost:3000",
-        "http://localhost:8001",  # type: ignore
+        "http://localhost:8001"  # type: ignore
     ]
 
     # Origins that match this regex OR are in the above list are allowed
@@ -40,6 +41,7 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     SQLALCHEMY_DATABASE_URI: str = "postgresql://postgres:postgres@localhost:5444/provaiol"
+    APP_SCHEMA: str = "sue"
     FIRST_SUPERUSER: EmailStr = "admin@istanze-online.it"
     FIRST_SUPERUSER_PASSWORD: str = "123456"
 

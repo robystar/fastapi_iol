@@ -10,8 +10,8 @@ if TYPE_CHECKING:
 
 
 class Item(Base):
+    __table_args__ = {'schema': 'varie'}
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     description = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("per_user.user.id"))
-    owner = relationship("User", back_populates="items")
+    owner_id = Column(Integer, ForeignKey("utenti.user.id"))

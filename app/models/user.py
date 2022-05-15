@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 
 
 class User(Base):
+    __table_args__ = {'schema': 'utenti'}
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String(256), nullable=True)
     surname = Column(String(256), nullable=True)
@@ -18,4 +19,4 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
-    items = relationship("Item", back_populates="owner")
+

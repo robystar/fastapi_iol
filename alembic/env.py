@@ -2,6 +2,8 @@ from __future__ import with_statement
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
+from geoalchemy2.alembic_helpers import include_object
+from geoalchemy2.alembic_helpers import render_item
 
 import pathlib, sys
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
@@ -44,6 +46,8 @@ def run_migrations_offline():
     """
     url = get_url()
     context.configure(
+        render_item=render_item,
+        include_object=include_object,
         url=url, target_metadata=target_metadata, literal_binds=True, compare_type=True
     )
 
@@ -68,6 +72,8 @@ def run_migrations_online():
 
     with connectable.connect() as connection:
         context.configure(
+            render_item=render_item,
+            include_object=include_object,
             connection=connection,
             target_metadata=target_metadata,
             compare_type=True,

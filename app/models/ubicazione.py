@@ -4,27 +4,39 @@ from geoalchemy2 import Geometry
 from app.db.base_class import Base
 
  
-class Civici(Base):    
+class Civico(Base):    
+    __tablename__ = 'civici'
+    __table_args__ = {'schema': 'sue'}
+    
     id = Column(Integer, primary_key=True, index=True)
-    id_istanza = Column(Integer, ForeignKey("sue.istanza.id_istanza"))    
+    id_istanza = Column(Integer, ForeignKey("sue.istanze.id_istanza"))    
     id_via = Column(Integer, nullable=True)
     via = Column(String(256), nullable=True)
     civico = Column(String(50), nullable=True)
     note = Column(String(256), nullable=True)
     geom = Column(Geometry(geometry_type='POINT', srid=4326, spatial_index=True))
+    istanza = relationship("Istanza", back_populates="civici")
+
     
-class Nct(Base):    
+class Mappale(Base):    
+    __tablename__ = 'mappali'
+    __table_args__ = {'schema': 'sue'}
+    
     id = Column(Integer, primary_key=True, index=True)
-    id_istanza = Column(Integer, ForeignKey("sue.istanza.id_istanza"))    
+    id_istanza = Column(Integer, ForeignKey("sue.istanze.id_istanza"))    
     sezione = Column(String(30), nullable=True)
     foglio = Column(String(8), nullable=True)
     mappale = Column(String(8), nullable=True)
     note = Column(String(256), nullable=True)
     geom = Column(Geometry(geometry_type='POLYGON', srid=4326, spatial_index=True))
-    
+    istanza = relationship("Istanza", back_populates="mappali")
+
 class Uiu(Base):    
+    __tablename__ = 'uiu'
+    __table_args__ = {'schema': 'sue'}
+    
     id = Column(Integer, primary_key=True, index=True)
-    id_istanza = Column(Integer, ForeignKey("sue.istanza.id_istanza"))    
+    id_istanza = Column(Integer, ForeignKey("sue.istanze.id_istanza"))    
     id_civico = Column(Integer,nullable=True)    
     sezione = Column(String(30), nullable=True)
     foglio = Column(String(80), nullable=True)
@@ -37,4 +49,4 @@ class Uiu(Base):
     supeficie = Column(Float, nullable=True)
     destuso = Column(String(80), nullable=True)
     note = Column(String(256), nullable=True)
-    
+    istanza = relationship("Istanza", back_populates="uiu")

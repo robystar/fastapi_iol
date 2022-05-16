@@ -2,8 +2,7 @@ from __future__ import with_statement
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
-from geoalchemy2.alembic_helpers import include_object
-from geoalchemy2.alembic_helpers import render_item
+from geoalchemy2.alembic_helpers import render_item, include_object
 
 import pathlib, sys
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
@@ -76,10 +75,12 @@ def run_migrations_online():
             include_object=include_object,
             connection=connection,
             target_metadata=target_metadata,
+            include_schemas=True,
             compare_type=True,
         )
 
         with context.begin_transaction():
+            context.execute('SET search_path TO public')
             context.run_migrations()
 
 

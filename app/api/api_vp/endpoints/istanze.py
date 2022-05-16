@@ -9,88 +9,87 @@ from app.api import deps
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.Plominodoc])
-def read_items(
+@router.get("/", response_model=List[schemas.Istanza])
+def read_all(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Retrieve items.
+    Retrieve istanze.
     """
     if crud.user.is_superuser(current_user):
-        items = crud.item.get_multi(db, skip=skip, limit=limit)
+        istanze = crud.istanza.get_multi(db, skip=skip, limit=limit)
     else:
-        items = crud.item.get_multi_by_owner(
-            db=db, owner_id=current_user.id, skip=skip, limit=limit
+        istanze = crud.istanza.get_multi_by_owner(
+            db=db, user_id=current_user.id, skip=skip, limit=limit
         )
-    return items
+    return istanze
 
 
-@router.post("/", response_model=schemas.Plominodoc)
+@router.post("/", response_model=schemas.Istanza)
 def create(
     *,
     db: Session = Depends(deps.get_db),
-    doc_in: schemas.Plominodoc,
+    istanza_in: schemas.IstanzaCreate,
 ) -> Any:
-    import pdb;pdb.set_trace()
-    mydoc = crud.plominodoc.create(db=db, obj_in=doc_in)
-    return mydoc
+    istanza = crud.istanza.create(db=db, obj_in=istanza_in)
+    return istanza
 
 
-@router.put("/{id}", response_model=schemas.Item)
-def update_item(
+@router.put("/{id}", response_model=schemas.Istanza)
+def update(
     *,
     db: Session = Depends(deps.get_db),
-    id: int,
-    item_in: schemas.ItemUpdate,
+    id_istanza: int,
+    istanza_in: schemas.IstanzaUpdate,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Update an item.
+    Update an istanza.
     """
-    item = crud.item.get(db=db, id=id)
-    if not item:
-        raise HTTPException(status_code=404, detail="Item not found")
-    if not crud.user.is_superuser(current_user) and (item.owner_id != current_user.id):
+    istanza = crud.istanza.get(db=db, id=id)
+    if not istanza:
+        raise HTTPException(status_code=404, detail="Istanza not found")
+    if not crud.user.is_superuser(current_user) and (istanza.user_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
-    item = crud.item.update(db=db, db_obj=item, obj_in=item_in)
-    return item
+    istanza = crud.istanza.update(db=db, db_obj=istanza, obj_in=istanza_in)
+    return istanza
 
 
-@router.get("/{id}", response_model=schemas.Item)
-def read_item(
-    *,
-    db: Session = Depends(deps.get_db),
-    id: int,
-    current_user: models.User = Depends(deps.get_current_active_user),
-) -> Any:
-    """
-    Get item by ID.
-    """
-    item = crud.item.get(db=db, id=id)
-    if not item:
-        raise HTTPException(status_code=404, detail="Item not found")
-    if not crud.user.is_superuser(current_user) and (item.owner_id != current_user.id):
-        raise HTTPException(status_code=400, detail="Not enough permissions")
-    return item
-
-
-@router.delete("/{id}", response_model=schemas.Item)
-def delete_item(
+@router.get("/{id}", response_model=schemas.Istanza)
+def read_one(
     *,
     db: Session = Depends(deps.get_db),
     id: int,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Delete an item.
+    Get istanza by ID.
     """
-    item = crud.item.get(db=db, id=id)
-    if not item:
-        raise HTTPException(status_code=404, detail="Item not found")
-    if not crud.user.is_superuser(current_user) and (item.owner_id != current_user.id):
+    istanza = crud.istanza.get(db=db, id=id)
+    if not istanza:
+        raise HTTPException(status_code=404, detail="Istanza not found")
+    if not crud.user.is_superuser(current_user) and (istanza.user_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
-    item = crud.item.remove(db=db, id=id)
-    return item
+    return istanza
+
+
+@router.delete("/{id}", response_model=schemas.Istanza)
+def delete(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: int,
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Delete an istanza.
+    """
+    istanza = crud.istanza.get(db=db, id=id)
+    if not istanza:
+        raise HTTPException(status_code=404, detail="Istanza not found")
+    if not crud.user.is_superuser(current_user) and (istanza.user_id != current_user.id):
+        raise HTTPException(status_code=400, detail="Not enough permissions")
+    istanza = crud.istanza.remove(db=db, id=id)
+    return istanza

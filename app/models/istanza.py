@@ -1,7 +1,7 @@
 from __future__ import annotations
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSONB, ARRAY
 
 from app.db.base_class import Base
 
@@ -21,6 +21,7 @@ class Istanza(Base):
     sportello = Column(String(256), nullable=False)
 
     user_id = Column(String(256))
+    owners = Column(ARRAY(String))
     items = Column(JSONB)
     
     richiedenti = relationship("Richiedente", back_populates="istanza")

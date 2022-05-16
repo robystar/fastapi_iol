@@ -1,34 +1,26 @@
 from pydantic import BaseModel, HttpUrl
 
-from typing import Sequence
+from typing import Sequence, Optional, Dict
 
 
 class IstanzaBase(BaseModel):
-    label: str
-    source: str
-    url: HttpUrl
-
+    items: Dict
 
 class IstanzaCreate(IstanzaBase):
-    label: str
-    source: str
-    url: HttpUrl
-    owner_id: int
-
+    id_istanza: int
+    user_id: str
 
 class IstanzaUpdate(IstanzaBase):
-    id: int
+    id_istanza: int
 
 
 class IstanzaUpdateRestricted(BaseModel):
-    id: int
-    label: str
-
-
+    id_istanza: int
+    
 # Properties shared by models stored in DB
 class IstanzaInDBBase(IstanzaBase):
-    id: int
-    owner_id: int
+    id_istanza: int
+    user_id: str
 
     class Config:
         orm_mode = True

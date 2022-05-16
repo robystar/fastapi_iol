@@ -40,7 +40,7 @@ class Settings(BaseSettings):
             return v
         raise ValueError(v)
 
-    SQLALCHEMY_DATABASE_URI: str = "postgresql://postgres:postgres@localhost:5444/provaiol"
+    SQLALCHEMY_DATABASE_URI: str = "postgresql://postgres:postgres@localhost:5444/dbprova"
     APP_SCHEMA: str = "sue"
     FIRST_SUPERUSER: EmailStr = "admin@istanze-online.it"
     FIRST_SUPERUSER_PASSWORD: str = "123456"

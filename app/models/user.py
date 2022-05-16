@@ -5,18 +5,12 @@ from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 
-if TYPE_CHECKING:
-    from .item import Item  # noqa: F401
-
-
 class User(Base):
-    __table_args__ = {'schema': 'utenti'}
-    id = Column(Integer, primary_key=True, index=True)
-    first_name = Column(String(256), nullable=True)
-    surname = Column(String(256), nullable=True)
+    __tablename__ = 'users'
+    user_id = Column(String(80), primary_key=True, index=True)
     full_name = Column(String, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
-
+    recipes = relationship( "Recipe", cascade="all,delete-orphan", back_populates="submitter", uselist=True )

@@ -1,3 +1,5 @@
+import datetime
+from lib2to3.pgen2.token import OP
 from pydantic import BaseModel, HttpUrl
 
 from typing import Sequence, Optional, Dict
@@ -9,6 +11,11 @@ class IstanzaBase(BaseModel):
 class IstanzaCreate(IstanzaBase):
     id_istanza: int
     user_id: str
+    anno: int
+    data_creazione: Optional[datetime.datetime]
+    sportello: str
+    tipo: str
+    
 
 class IstanzaUpdate(IstanzaBase):
     id_istanza: int

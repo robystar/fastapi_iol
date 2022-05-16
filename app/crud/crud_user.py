@@ -13,10 +13,11 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         return db.query(User).filter(User.email == email).first()
 
     def get(self, db: Session, id: Any) -> User:
-        return db.query(self.model).filter(self.model.id == id).first()
+        return db.query(self.model).filter(self.model.user_id == id).first()
     
     def create(self, db: Session, *, obj_in: UserCreate) -> User:
         db_obj = User(
+            user_id=obj_in.user_id,
             email=obj_in.email,
             hashed_password=get_password_hash(obj_in.password),
             full_name=obj_in.full_name,

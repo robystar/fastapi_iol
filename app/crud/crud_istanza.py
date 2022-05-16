@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.crud.base import CRUDBase
 from app.models.istanza import Istanza
-from app.schemas.istanza import Istanza, IstanzaCreate, IstanzaUpdate
+from app.schemas.istanza import IstanzaCreate, IstanzaUpdate
 
 
 class CRUDIstanza(CRUDBase[Istanza, IstanzaCreate, IstanzaUpdate]):

@@ -42,8 +42,10 @@ class Settings(BaseSettings):
 
     SQLALCHEMY_DATABASE_URI: str = "postgresql://postgres:postgres@localhost:5444/dbprova"
     APP_SCHEMA: str = "sue"
-    FIRST_SUPERUSER: EmailStr = "admin@istanze-online.it"
+    FIRST_SUPERUSER: str = "robystar"
+    FIRST_SUPERUSER_EMAIL: EmailStr = "admin@istanze-online.it"
     FIRST_SUPERUSER_PASSWORD: str = "123456"
+    
 
     class Config:
         case_sensitive = True

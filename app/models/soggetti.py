@@ -1,6 +1,7 @@
 from sqlalchemy import Boolean, Column, Integer, String, Date, Enum, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.base_class import Base
+from geoalchemy2 import Geometry
 
 import enum
 
@@ -61,6 +62,7 @@ class Richiedente(Base, Fisica, Indirizzo, Recapito):
     istanza = relationship("Istanza", back_populates="richiedenti")
     domicilio = relationship("RichiedenteDomicilio", back_populates="richiedente")
     condominio = relationship("RichiedenteCondominio", back_populates="richiedente")
+    giuridica = relationship("RichiedenteGiuridica", back_populates="richiedente")
 
 
 class RichiedenteGiuridica(Base,Giuridica,Indirizzo,Recapito):    
@@ -144,3 +146,5 @@ class Esecutore(Base, Fisica, Indirizzo, Recapito):
     id_pratica = Column(Integer, nullable=True)
     sostituito = Column(Boolean, nullable=True)
     istanza = relationship("Istanza", back_populates="esecutori")
+    
+    

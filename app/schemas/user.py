@@ -5,6 +5,7 @@ from pydantic import BaseModel, EmailStr
 
 # Shared properties
 class UserBase(BaseModel):
+    user_id: str
     email: Optional[EmailStr] = None
     is_active: Optional[bool] = True
     is_superuser: bool = False
@@ -23,7 +24,7 @@ class UserUpdate(UserBase):
 
 
 class UserInDBBase(UserBase):
-    user_id: Optional[int] = None
+    user_id: Optional[str] = None
 
     class Config:
         orm_mode = True

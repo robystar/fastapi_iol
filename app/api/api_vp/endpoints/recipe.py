@@ -82,7 +82,8 @@ def create_recipe(
     """
     Create a new recipe in the database.
     """
-    if recipe_in.owner_id != current_user.id:
+    import pdb;pdb.set_trace()
+    if recipe_in.submitter_id != current_user.user_id:
         raise HTTPException(
             status_code=403, detail=f"You can only submit recipes as yourself"
         )
@@ -107,7 +108,7 @@ def update_recipe(
             status_code=400, detail=f"Recipe with ID: {recipe_in.id} not found."
         )
 
-    if recipe.owner_id != current_user.id:
+    if recipe.submitter_id != current_user.user_id:
         raise HTTPException(
             status_code=403, detail=f"You can only update your recipes."
         )

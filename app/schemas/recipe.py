@@ -6,14 +6,11 @@ from typing import Sequence
 class RecipeBase(BaseModel):
     label: str
     source: str
-    url: HttpUrl
+    url: str
 
 
 class RecipeCreate(RecipeBase):
-    label: str
-    source: str
-    url: HttpUrl
-    owner_id: int
+    submitter_id: str
 
 
 class RecipeUpdate(RecipeBase):
@@ -28,7 +25,7 @@ class RecipeUpdateRestricted(BaseModel):
 # Properties shared by models stored in DB
 class RecipeInDBBase(RecipeBase):
     id: int
-    owner_id: int
+    submitter_id: str
 
     class Config:
         orm_mode = True

@@ -8,3 +8,4 @@
 
 from .crud_user import user
 from .crud_istanza import istanza
+from .crud_recipe import recipe

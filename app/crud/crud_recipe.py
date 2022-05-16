@@ -1,14 +1,16 @@
 from typing import Union
 
 from sqlalchemy.orm import Session
+from fastapi.encoders import jsonable_encoder
 
 from app.crud.base import CRUDBase
-from app.models.recipe import Recipe
+from app.models.ubicazione import Recipe
 from app.models.user import User
 from app.schemas.recipe import RecipeCreate, RecipeUpdateRestricted, RecipeUpdate
 
 
 class CRUDRecipe(CRUDBase[Recipe, RecipeCreate, RecipeUpdate]):
+
     def update(
         self,
         db: Session,

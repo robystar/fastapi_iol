@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
+from app.schemas import richiedente
+from app.schemas.richiedente import Richiedente
 
 router = APIRouter()
 
@@ -28,18 +30,18 @@ def read_items(
     return items
 
 
-@router.post("/", response_model=schemas.Item)
+@router.post("/", response_model=schemas.Richiedente)
 def create_item(
     *,
     db: Session = Depends(deps.get_db),
-    item_in: schemas.ItemCreate,
+    richiedente_in: schemas.RichiedenteCreate,
     current_user: models.User = Depends(deps.get_current_active_user),
-) -> Any:
+) -> Richiedente:
     """
     Create new item.
     """
-    item = crud.item.create_with_owner(db=db, obj_in=item_in, owner_id=current_user.id)
-    return item
+    richiedente = crud.richiedente.create(db=db, obj_in=richiedente_in)
+    return richiedente
 
 
 @router.put("/{id}", response_model=schemas.Item)

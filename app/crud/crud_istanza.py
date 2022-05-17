@@ -5,10 +5,18 @@ from sqlalchemy.orm import Session
 
 from app.crud.base import CRUDBase
 from app.models.istanza import Istanza
-from app.schemas.istanza import IstanzaCreate, IstanzaUpdate
+from app.schemas.istanza import IstanzaCreate, IstanzaUpdate, IstanzaBase
 
 
 class CRUDIstanza(CRUDBase[Istanza, IstanzaCreate, IstanzaUpdate]):
+
+    def get(self, db: Session, id: int) -> IstanzaCreate:
+            return db.query(self.model).filter(self.model.id_istanza == id).first()
+        
+        
+    def getItems(self, db: Session, id: int) -> IstanzaBase:
+            return db.query(self.model).filter(self.model.id_istanza == id).first()["items"]
+    
     def create_with_owner(
         self, db: Session, *, obj_in: IstanzaCreate, user_id: str
     ) -> Istanza:

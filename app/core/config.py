@@ -1,6 +1,6 @@
 import pathlib
 
-from pydantic import AnyHttpUrl, BaseSettings, EmailStr, validator
+from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, validator
 from typing import List, Optional, Union
 
 
@@ -46,6 +46,14 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_EMAIL: EmailStr = "admin@istanze-online.it"
     FIRST_SUPERUSER_PASSWORD: str = "123456"
     
+    
+    SENTRY_DSN: Optional[str] = "pyamqp://guest@localhost//"
+
+    @validator("SENTRY_DSN", pre=True)
+    def sentry_dsn_can_be_blank(cls, v: str) -> Optional[str]:
+        if len(v) == 0:
+            return None
+        return v
 
     class Config:
         case_sensitive = True

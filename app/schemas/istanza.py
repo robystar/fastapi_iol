@@ -16,7 +16,6 @@ class IstanzaCreate(IstanzaBase):
     sportello: str
     tipo: str
     
-
 class IstanzaUpdate(IstanzaBase):
     id_istanza: int
 

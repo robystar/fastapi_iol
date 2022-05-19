@@ -32,7 +32,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db.query(self.model).offset(skip).limit(limit).all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
+        
         obj_in_data = jsonable_encoder(obj_in)
+        import pdb;pdb.set_trace()
+        print (obj_in_data)
         db_obj = self.model(**obj_in_data)  # type: ignore
         db.add(db_obj)
         db.commit()

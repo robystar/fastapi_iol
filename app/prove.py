@@ -15,8 +15,44 @@ engine = create_engine("postgresql://postgres:postgres@localhost:5444/provaiol",
 
 from app.db.base_class import Base
 
+
+class Parent(Base):
+    __tablename__ = 'parent'
+    id = Column(Integer, primary_key=True)
+
+    # previously one-to-many Parent.children is now
+    # one-to-one Parent.child
+    child = relationship("Child", back_populates="parent", uselist=False)
+
+class Child(Base):
+    __tablename__ = 'child'
+    id = Column(Integer, primary_key=True)
+    parent_id = Column(Integer, ForeignKey('parent.id'))
+
+    # many-to-one side remains, see tip below
+    parent = relationship("Parent", back_populates="child")
+
+
 Base.metadata.create_all(engine)
-exit() 
+
+
+# Test it
+with Session(bind=engine) as session:
+
+    # add users
+    parent = Parent(id=3,child=Child(id=2))
+    session.add(parent)
+
+
+    session.commit()
+
+
+
+
+
+exit()
+
+
 
 
 class User(Base):

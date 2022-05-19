@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
-from app.schemas import richiedente
 from app.schemas.richiedente import Richiedente
 
 router = APIRouter()
@@ -35,7 +34,7 @@ def create_item(
     *,
     db: Session = Depends(deps.get_db),
     richiedente_in: schemas.RichiedenteCreate,
-    current_user: models.User = Depends(deps.get_current_active_user),
+    #current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Richiedente:
     """
     Create new item.
